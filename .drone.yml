@@ -8,6 +8,7 @@ pipeline:
       - latest
       - "3.7"
     when:
+      branch: master
       event: 
         - push
 
@@ -17,4 +18,5 @@ pipeline:
     template: >
       [#{{ build.number }} {{ build.event }}] {{ repo.owner }}/{{ repo.name }} ({{ build.author }}, {{ build.commit }}), build finished with a {{ build.status }} status {{ build.link }}
     when:
+      branch: master
       status: [ success, failure ]
