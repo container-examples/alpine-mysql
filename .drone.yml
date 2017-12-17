@@ -1,0 +1,20 @@
+pipeline:  
+  publish:
+    image: plugins/docker
+    repo: perriea/alpine-mysql
+    dockerfile: Dockerfile
+    secrets: [ docker_username, docker_password ]
+    tag:
+      - latest
+      - "3.7"
+    when:
+      event: 
+        - push
+
+  slack:
+    image: plugins/slack
+    webhook: https://hooks.slack.com/services/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
+    template: >
+      [#{{ build.number }} {{ build.event }}] {{ repo.owner }}/{{ repo.name }} ({{ build.author }}, {{ build.commit }}), build finished with a {{ build.status }} status {{ build.link }}
+    when:
+      status: [ success, failure ]
